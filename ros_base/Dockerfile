@@ -70,6 +70,12 @@ masters = gentoo" > $EPREFIX/etc/portage/repos.conf/ros-overlay.conf
 # Sync ros-overlay
 RUN $PREFIXED emaint sync -r ros-overlay
 
+# rosdep fails with
+# ERROR: cannot verify pypi.org's certificate, issued by 'CN=DigiCert SHA2 Extended Validation Server CA,OU=www.digicert.com,O=DigiCert Inc,C=US':
+#  Unable to locally verify the issuer's authority
+RUN $PREFIXED emerge dev-libs/openssl
+RUN $PREFIXED emerge app-misc/ca-certificates
+
 # Make sure rosdep emerges OK
 RUN $PREFIXED emerge dev-python/rosdep
 
