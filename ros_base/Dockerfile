@@ -46,7 +46,7 @@ RUN bash gentoo/executeonprefix emerge --version
 
 # All commands to run in the Gentoo Prefix environment must
 # be preprended by $PREFIXED
-ENV PREFIXED=/tmp/executeonprefix
+ENV PREFIXED=/tmp/gentoo/executeonprefix
 ENV EPREFIX=/tmp/gentoo
 
 # By default it's python3 (option 1)
