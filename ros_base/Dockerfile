@@ -75,6 +75,8 @@ RUN $PREFIXED emaint sync -r ros-overlay
 #  Unable to locally verify the issuer's authority
 RUN $PREFIXED emerge dev-libs/openssl
 RUN $PREFIXED emerge app-misc/ca-certificates
+RUN $PREFIXED emerge net-misc/wget
+RUN $PREFIXED emerge net-misc/curl
 
 # Make sure rosdep emerges OK
 RUN $PREFIXED emerge dev-python/rosdep
