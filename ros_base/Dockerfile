@@ -25,6 +25,8 @@ RUN apt-get install wget -y
 RUN apt-get install openssh-server -y
 # To enable adding to the clipboard from the shell
 RUN apt-get install xclip -y
+# To download stuff faster
+RUN apt-get install aria2c -y
 
 WORKDIR /home/user
 USER user
@@ -33,8 +35,6 @@ USER user
 RUN cat /proc/cpuinfo
 RUN cat /proc/meminfo
 RUN df -h
-
-RUN apt-get install aria2c
 
 # Note that we always use the same one
 RUN aria2c -x 10 https://github.com/awesomebytes/gentoo_prefix_ci/releases/download/release%2F2018-12-05T10at01plus00at00/gentoo_on_tmp-amd64_2018-12-05T10at01plus00at00.tar.gz
