@@ -77,6 +77,7 @@ RUN $PREFIXED emerge dev-libs/openssl
 RUN $PREFIXED emerge app-misc/ca-certificates
 RUN $PREFIXED emerge net-misc/wget
 RUN $PREFIXED emerge net-misc/curl
+RUN $PREFIXED update-ca-certificates
 
 # Make sure rosdep emerges OK
 RUN $PREFIXED emerge dev-python/rosdep
