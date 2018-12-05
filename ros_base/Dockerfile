@@ -26,7 +26,7 @@ RUN apt-get install openssh-server -y
 # To enable adding to the clipboard from the shell
 RUN apt-get install xclip -y
 # To download stuff faster
-RUN apt-get install aria2c -y
+RUN apt-get install aria2 -y
 
 WORKDIR /home/user
 USER user
