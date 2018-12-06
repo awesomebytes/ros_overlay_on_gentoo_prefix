@@ -53,6 +53,19 @@ ENV EPREFIX=/tmp/gentoo
 # Choosing Python 2.7
 RUN $PREFIXED eselect python set 2
 
+# Only emerge for Python 2.7
+# Because of errors like:
+# Issue https://github.com/ros/ros-overlay/issues/715
+RUN echo "# From the Docker image of ros-overlay\n\
+# mainly force to build just Python 2.7\n\
+ros-indigo/* PYTHON_TARGETS: -* python2_7\n\
+ros-indigo/* PYTHON_SINGLE_TARGET: -* python2_7\n\
+ros-kinetic/* PYTHON_TARGETS: -* python2_7\n\
+ros-kinetic/* PYTHON_SINGLE_TARGET: -* python2_7\n\
+ros-lunar/* PYTHON_TARGETS: -* python2_7\n\
+ros-lunar/* PYTHON_SINGLE_TARGET: -* python2_7\n\
+" >> $EPREFIX/etc/portage/package.use
+
 # Let's make the compilations faster when possible
 # Substitute the default -j2 with -j<NUM_CORES/2>
 RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPREFIX/etc/portage/make.conf
@@ -121,19 +134,6 @@ RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
 # /usr/include/string.h:627:12: fatal error: bits/string.h: No such file or directory
 # #  include <bits/string.h>
 RUN echo ">=dev-python/pillow-5.2.0" >> $EPREFIX/etc/portage/package.mask
-
-# Only emerge for Python 2.7
-# Because of errors like:
-# Issue
-RUN echo "# From the Docker image of ros-overlay\n\
-# mainly force to build just Python 2.7\n\
-ros-indigo/* PYTHON_TARGETS: -* python2_7\n\
-ros-indigo/* PYTHON_SINGLE_TARGET: -* python2_7\n\
-ros-kinetic/* PYTHON_TARGETS: -* python2_7\n\
-ros-kinetic/* PYTHON_SINGLE_TARGET: -* python2_7\n\
-ros-lunar/* PYTHON_TARGETS: -* python2_7\n\
-ros-lunar/* PYTHON_SINGLE_TARGET: -* python2_7\n\
-" >> $EPREFIX/etc/portage/package.use
 
 # Setup the basic ROS
 RUN $PREFIXED  emerge ros-kinetic/ros_base
