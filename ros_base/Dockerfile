@@ -53,6 +53,10 @@ ENV EPREFIX=/tmp/gentoo
 # Choosing Python 2.7
 RUN $PREFIXED eselect python set 2
 
+# Let's make the compilations faster when possible
+# Substitute the default -j2 with -j<NUM_CORES/2>
+RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPREFIX/etc/portage/make.conf
+
 # Emerging git
 RUN $PREFIXED emerge dev-vcs/git
 
