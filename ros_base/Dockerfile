@@ -108,6 +108,11 @@ RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
 # #  include <bits/string.h>
 RUN echo ">=dev-python/pillow-5.2.0" >> $EPREFIX/etc/portage/package.mask
 
+# Currently there is a bug that wont allow to compile rostime and others:
+# https://github.com/ros/ros-overlay/issues/711
+# Downgrading cmake seems to work it out
+RUN $PREFIXED emerge =dev-util/cmake-3.13.1
+
 # Setup the basic ROS
 RUN $PREFIXED  emerge ros-kinetic/ros_base
 
