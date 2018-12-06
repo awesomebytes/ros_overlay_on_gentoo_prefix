@@ -49,6 +49,8 @@ jobs:
     variables:
       docker_image_name: roogp_ros_kinetic_ros_base_package_stage
       platform: amd64
+      rosdistro: ros-kinetic
+      bundlename: ros_base
 
     steps:
     # The variables are set on the Build options on the web interface
@@ -89,7 +91,7 @@ jobs:
     - script: |
         export DATE=$(date -I'minutes' | sed 's/+/plus/g'| sed 's/:/at/g')
         export RELEASE_TAG=release/${DATE}
-        export RELEASE_FILE_NAME=gentoo_on_tmp-${PLATFORM}_${DATE}.tar.gz
+        export RELEASE_FILE_NAME=gentoo_on_tmp_with_$(rosdistro)_$(bundlename)-${PLATFORM}_${DATE}.tar.gz
         export RELEASE_NAME="Gentoo Prefix on /tmp/gentoo"
         export BODY="Use ROS Kinetic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.gz; ./gentoo/startprefix"
         mv $HOME/gentoo_on_tmp.tar.gz ${RELEASE_FILE_NAME}
