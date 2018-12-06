@@ -66,6 +66,10 @@ ros-lunar/* PYTHON_TARGETS: -* python2_7\n\
 ros-lunar/* PYTHON_SINGLE_TARGET: -* python2_7\n\
 " >> $EPREFIX/etc/portage/package.use
 
+# So we dont get complains
+RUN echo "en_US.UTF-8 UTF-8" >> $EPREFIX/etc/locale.gen
+RUN $PREFIXED locale-gen
+
 # Let's make the compilations faster when possible
 # Substitute the default -j2 with -j<NUM_CORES/2>
 RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPREFIX/etc/portage/make.conf
