@@ -84,6 +84,14 @@ RUN mkdir -p $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
     cd $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
     wget https://gist.githubusercontent.com/awesomebytes/856d1d1b0d267f90241451d933a17867/raw/0d4f5eb1095999ffa1265ee6b59ecb33833e63c7/0001-Overcome-statx-libseccomp-issue-with-running-inside-.patch
 
+# cause of https://github.com/ros/ros-overlay/issues/725
+RUN $PREFIXED emerge dev-qt/qtwidgets
+
+# patch https://github.com/ros/ros-overlay/issues/724
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
+    cd $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
+    wget https://gist.githubusercontent.com/awesomebytes/b1cc1490045a568b68dcd618629de405/raw/bbebd2f6a65c54c1a8910182b49b0db4264e909d/0001-Adapt-to-Ogre-1.10.patch
+
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
 
