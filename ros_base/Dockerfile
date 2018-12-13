@@ -105,13 +105,11 @@ RUN $PREFIXED update-ca-certificates
 
 # Currently there is a bug that wont allow to compile rostime and others:
 # https://github.com/ros/ros-overlay/issues/711
-# # Downgrading cmake seems to work it out
-# # We do it here as cmake is emerged as a dependency before we actually
-# # emerge ros-kinetic/ros_base
-# RUN echo ">=dev-util/cmake-3.13.0" >> $EPREFIX/etc/portage/package.mask
-# Probably a better workaround is:
 RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/catkin
 COPY 0001-Workaround-error-issue-ros-overlay-711.patch $EPREFIX/etc/portage/patches/ros-kinetic/catkin/0001-Workaround-error-issue-ros-overlay-711.patch
+
+# It's also needed to not run in problems later on (on ros-kinetic/desktop)
+RUN echo ">dev-util/cmake-3.12.3" >> /tmp/gentoo/etc/portage/package.mask
 
 # Make sure rosdep emerges OK
 RUN $PREFIXED emerge dev-python/rosdep
