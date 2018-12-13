@@ -75,6 +75,14 @@ RUN mkdir -p /tmp/gentoo/etc/portage/patches/ros-kinetic/rviz && \
     cd /tmp/gentoo/etc/portage/patches/ros-kinetic/rviz && \
     wget https://gist.githubusercontent.com/awesomebytes/c1ba75ec3329aa63d768320b43743e70/raw/c1252160503302cf91c4bf73ef880fa9225cb7f4/0001-Adapt-Rviz-to-Ogre-1.11.patch
 
+# If we can go faster, try
+RUN sed -i -e 's/j1/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPREFIX/etc/portage/make.conf
+RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPREFIX/etc/portage/make.conf
+
+# Patch building Qt inside of a docker container https://bugs.gentoo.org/672602
+RUN mkdir -p $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
+    cd $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
+    wget https://gist.githubusercontent.com/awesomebytes/856d1d1b0d267f90241451d933a17867/raw/0d4f5eb1095999ffa1265ee6b59ecb33833e63c7/0001-Overcome-statx-libseccomp-issue-with-running-inside-.patch
 
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
