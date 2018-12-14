@@ -48,13 +48,6 @@ RUN echo "# required by media-gfx/graphviz-2.40.1-r1::gentoo\n\
 # required by ros-kinetic/desktop (argument)\n\
 >=sys-libs/zlib-1.2.11-r2 minizip" >> /tmp/gentoo/etc/portage/package.use
 
-# Until https://github.com/ros/ros-overlay/pull/719 is merged
-# We need to patch and re-emerge message_filters (and anything that depends on it)
-RUN mkdir -p /tmp/gentoo/etc/portage/patches/ros-kinetic/message_filters
-RUN cd /tmp/gentoo/etc/portage/patches/ros-kinetic/message_filters && \
-    wget https://raw.githubusercontent.com/ros/ros-overlay/2792112ea175d02473fca12497d85a55891c56c2/ros-kinetic/message_filters/files/0001-Changed-invocation-to-add-to-conform-template-syntax.patch
-RUN $PREFIXED emerge ros-kinetic/message_filters
-
 
 # For https://bugs.gentoo.org/649808
 RUN mkdir -p /tmp/gentoo/etc/portage/profile && \
