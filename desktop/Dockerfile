@@ -71,6 +71,9 @@ RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPRE
 RUN mkdir -p $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
     cd $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
     wget https://gist.githubusercontent.com/awesomebytes/856d1d1b0d267f90241451d933a17867/raw/0d4f5eb1095999ffa1265ee6b59ecb33833e63c7/0001-Overcome-statx-libseccomp-issue-with-running-inside-.patch
+# For https://github.com/ros/ros-overlay/issues/729
+RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> /tmp/gentoo/etc/portage/package.use
+RUN $PREFIXED emerge dev-python/PyQt5[gui,widgets]
 
 # cause of https://github.com/ros/ros-overlay/issues/725
 RUN $PREFIXED emerge dev-qt/qtwidgets
