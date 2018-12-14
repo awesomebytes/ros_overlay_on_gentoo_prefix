@@ -73,17 +73,17 @@ RUN mkdir -p $EPREFIX/etc/portage/patches/dev-qt/qtcore &&\
     wget https://gist.githubusercontent.com/awesomebytes/856d1d1b0d267f90241451d933a17867/raw/0d4f5eb1095999ffa1265ee6b59ecb33833e63c7/0001-Overcome-statx-libseccomp-issue-with-running-inside-.patch
 # For https://github.com/ros/ros-overlay/issues/729
 RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> /tmp/gentoo/etc/portage/package.use
+# patch https://github.com/ros/ros-overlay/issues/724
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
+    cd $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
+    wget https://gist.githubusercontent.com/awesomebytes/b1cc1490045a568b68dcd618629de405/raw/bbebd2f6a65c54c1a8910182b49b0db4264e909d/0001-Adapt-to-Ogre-1.10.patch
+
 RUN $PREFIXED emerge dev-python/PyQt5[gui,widgets]
 
 # cause of https://github.com/ros/ros-overlay/issues/725
 RUN $PREFIXED emerge dev-qt/qtwidgets
 
 RUN echo "dev-qt/qtwebkit-5.212.0_pre20180120" >> $EPREFIX/etc/portage/profile/package.provided
-
-# patch https://github.com/ros/ros-overlay/issues/724
-RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
-    cd $EPREFIX/etc/portage/patches/ros-kinetic/rviz_plugin_tutorials &&\
-    wget https://gist.githubusercontent.com/awesomebytes/b1cc1490045a568b68dcd618629de405/raw/bbebd2f6a65c54c1a8910182b49b0db4264e909d/0001-Adapt-to-Ogre-1.10.patch
 
 # Also for
 RUN $PREFIXED emerge dev-qt/qttest dev-qt/qtconcurrent
