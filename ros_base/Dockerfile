@@ -157,6 +157,9 @@ RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
 # #  include <bits/string.h>
 RUN echo ">=dev-python/pillow-5.2.0" >> $EPREFIX/etc/portage/package.mask
 
+# New version of glibc came out but it crashes
+RUN echo ">=dev-libs/glib-2.58.1" >> $EPREFIX/etc/portage/package.mask
+
 # Setup the basic ROS
 RUN $PREFIXED emerge ros-kinetic/ros_base || true
 # Apparently dev-lisp/sbcl-1.4.13 sometimes may fail in some of the tests
