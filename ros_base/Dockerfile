@@ -123,12 +123,11 @@ COPY 0001-Workaround-error-issue-ros-overlay-711.patch $EPREFIX/etc/portage/patc
 
 # It's also needed to not run in problems later on (on ros-kinetic/desktop)
 RUN echo ">dev-util/cmake-3.12.3" >> /tmp/gentoo/etc/portage/package.mask
+# Make sure we emerge that version
+RUN $PREFIXED emerge dev-util/cmake
 
-# Make sure rosdep emerges OK
-RUN $PREFIXED emerge dev-python/rosdep
-
-# Make sure catkin emerges OK
-RUN $PREFIXED emerge ros-kinetic/catkin
+# Make sure rosdep & catkin emerge OK
+RUN $PREFIXED emerge dev-python/rosdep ros-kinetic/catkin
 
 # Needed to emerge ros-kinetic/ros_base
 RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
@@ -164,6 +163,6 @@ RUN $PREFIXED emerge ros-kinetic/ros_base || true
 RUN $PREFIXED emerge ros-kinetic/ros_base
 
 # Create the bin packages
-RUN $PREFIXED quickpkg \"*/*\" --include-config y --include-unmodified-config y
+# RUN $PREFIXED quickpkg \"*/*\" --include-config y --include-unmodified-config y
 
 ENTRYPOINT ["/bin/bash"]
