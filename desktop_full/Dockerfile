@@ -12,90 +12,82 @@ RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/image_view &&\
 # desktop_full includes desktop, perception & simulators
 RUN $PREFIXED emerge ros-kinetic/perception
 
+# Workaround (bug https://bugs.gentoo.org/672598)
+RUN sed -i 's/${D}/${ED}/g' /tmp/gentoo/usr/portage/dev-libs/libspnav/libspnav-0.2.2.ebuild &&\
+    $PREFIXED ebuild $EPREFIX/usr/portage/dev-libs/libspnav/libspnav-0.2.2.ebuild manifest
+
 RUN echo "# required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=virtual/rubygems-14 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/json-2.1.0 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/test-unit-3.2.9 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/minitest-5.11.3 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/net-telnet-0.2.0 ruby_targets_ruby25\n\
 # required by virtual/rubygems-14::gentoo[ruby_targets_ruby25]\n\
 # required by dev-ruby/mustache-1.1.0::gentoo\n\
 # required by app-text/ronn-0.7.3-r3::gentoo[ruby_targets_ruby23,-test]\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by sci-electronics/gazebo-7.11.0::ros-overlay\n\
+# required by =sci-electronics/gazebo-7.11.0 (argument)\n\
 >=dev-ruby/rubygems-2.7.8 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo[rdoc]\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/rdoc-6.0.4 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/power_assert-1.1.3 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/rake-12.3.2 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/rubygems-2.7.8::gentoo[ruby_targets_ruby25]\n\
+# required by virtual/rubygems-14::gentoo[ruby_targets_ruby23]\n\
+# required by dev-ruby/mustache-1.1.0::gentoo\n\
+# required by app-text/ronn-0.7.3-r3::gentoo[ruby_targets_ruby23,-test]\n\
+# required by sci-electronics/gazebo-7.11.0::ros-overlay\n\
+# required by =sci-electronics/gazebo-7.11.0 (argument)\n\
 >=dev-ruby/did_you_mean-1.2.1 ruby_targets_ruby25\n\
 # required by dev-lang/ruby-2.5.3::gentoo\n\
-# required by dev-libs/sdformat-6.1.0::gentoo\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by dev-ruby/did_you_mean-1.2.1::gentoo[ruby_targets_ruby25]\n\
 >=dev-ruby/xmlrpc-0.3.0 ruby_targets_ruby25\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
->=media-libs/freeimage-3.15.4-r1 png\n\
 \n\
 # required by dev-ruby/rdoc-6.0.4::gentoo[ruby_targets_ruby25]\n\
 # required by dev-lang/ruby-2.4.5-r1::gentoo[rdoc]\n\
 # required by dev-ruby/mustache-1.1.0::gentoo[ruby_targets_ruby24]\n\
 # required by app-text/ronn-0.7.3-r3::gentoo[ruby_targets_ruby23,-test]\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
+# required by sci-electronics/gazebo-7.11.0::ros-overlay\n\
+# required by =sci-electronics/gazebo-7.11.0 (argument)\n\
 >=dev-ruby/racc-1.4.14 ruby_targets_ruby25\n\
 # required by dev-ruby/rdoc-6.0.4::gentoo[ruby_targets_ruby25]\n\
 # required by dev-lang/ruby-2.4.5-r1::gentoo[rdoc]\n\
 # required by dev-ruby/mustache-1.1.0::gentoo[ruby_targets_ruby24]\n\
 # required by app-text/ronn-0.7.3-r3::gentoo[ruby_targets_ruby23,-test]\n\
-# required by sci-electronics/gazebo-9.4.1::ros-overlay\n\
-# required by =sci-electronics/gazebo-9.4.1 (argument)\n\
->=dev-ruby/kpeg-1.1.0-r1 ruby_targets_ruby25" >> /tmp/gentoo/etc/portage/package.use
+# required by sci-electronics/gazebo-7.11.0::ros-overlay\n\
+# required by =sci-electronics/gazebo-7.11.0 (argument)\n\
+>=dev-ruby/kpeg-1.1.0-r1 ruby_targets_ruby25" >> $EPREFIX/etc/portage/package.use
 
 
-# Workaround (bug https://bugs.gentoo.org/672598)
-RUN sed -i 's/${D}/${ED}/g' /tmp/gentoo/usr/portage/dev-libs/libspnav/libspnav-0.2.2.ebuild &&\
-    cd $EPREFIX/usr/portage/dev-libs/libspnav &&\
-    $PREFIXED ebuild libspnav-0.2.2.ebuild manifest
+ADD ignition-transport-3.1.0-r1.ebuild ignition-transport-3.1.0-r1.ebuild
+RUN mv ignition-transport-3.1.0-r1.ebuild $EPREFIX/usr/local/portage/sci-libs/ignition-transport &&\
+    sed -i 's/net-libs\/ignition-msgs:0=/sci-libs\/ignition-msgs:0=/' $EPREFIX/usr/local/portage/sci-libs/ignition-transport/ignition-transport-3.1.0-r1.ebuild &&\
+    $PREFIXED ebuild $EPREFIX/usr/local/portage/sci-libs/ignition-transport/ignition-transport-3.1.0-r1.ebuild manifest
+RUN sed -i 's/net-libs\/ignition-transport:3=/sci-libs\/ignition-transport:3=/' $EPREFIX/usr/local/portage/sci-electronics/gazebo/gazebo-7.11.0.ebuild &&\
+    sed -i 's/net-libs\/ignition-msgs:=/sci-libs\/ignition-msgs:=/' $EPREFIX/usr/local/portage/sci-electronics/gazebo/gazebo-7.11.0.ebuild &&\
+    $PREFIXED ebuild $EPREFIX/usr/local/portage/sci-electronics/gazebo/gazebo-7.11.0.ebuild manifest
 
-# Still plenty of problems to get there...
-# currently stuck on ignition-math
-RUN $PREFIXED emerge =sci-electronics/gazebo-9.4.1
+# RUN echo ">=sci-electronics/gazebo-7.12" >> $EPREFIX/etc/portage/package.mask
+RUN echo "# required by sci-electronics/gazebo-7.11.0::ros-overlay\n\
+# required by sci-electronics/gazebo (argument)\n\
+>=media-libs/freeimage-3.15.4-r1 png" >> $EPREFIX/etc/portage/package.use
+
+RUN $PREFIXED emerge =sci-electronics/gazebo-7.11.0
 
 RUN $PREFIXED emerge ros-kinetic/desktop_full
 
