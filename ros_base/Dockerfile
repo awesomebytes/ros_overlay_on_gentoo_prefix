@@ -37,7 +37,7 @@ RUN cat /proc/meminfo
 RUN df -h
 
 # Note that we always use the same one
-RUN aria2c -x 10 https://github.com/awesomebytes/gentoo_prefix_ci/releases/download/release%2F2018-12-29T17at58plus00at00/gentoo_on_tmp-amd64_2018-12-29T17at58plus00at00.tar.gz
+RUN aria2c -x 10 https://github.com/awesomebytes/gentoo_prefix_ci/releases/download/release%2F2019-01-03T18at34plus00at00/gentoo_on_tmp-amd64_2019-01-03T18at34plus00at00.tar.gz
 
 RUN tar xvf gentoo_on_tmp-*.tar.gz; rm gentoo_on_tmp-*.tar.gz
 
