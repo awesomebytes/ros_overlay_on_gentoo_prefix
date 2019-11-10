@@ -60,6 +60,14 @@ RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPRE
 RUN echo "EMERGE_DEFAULT_OPTS=\"--jobs $((`grep -c \^processor \/proc\/cpuinfo` / 2)) --load-average `grep -c \^processor \/proc\/cpuinfo`\"" >> $EPREFIX/etc/portage/make.conf
 RUN cat $EPREFIX/etc/portage/make.conf
 
+# dev-vcs/git-2.20.1 fails with (this command was already here, but executed after emerging git)
+# ERROR: cannot verify www.kernel.org's certificate
+# rosdep fails with
+# ERROR: cannot verify pypi.org's certificate, issued by 'CN=DigiCert SHA2 Extended Validation Server CA,OU=www.digicert.com,O=DigiCert Inc,C=US':
+#  Unable to locally verify the issuer's authority
+# RUN $PREFIXED emerge dev-libs/openssl app-misc/ca-certificates net-misc/wget net-misc/curl
+RUN $PREFIXED update-ca-certificates
+
 # Emerging git
 RUN $PREFIXED emerge dev-vcs/git
 
@@ -86,12 +94,6 @@ auto-sync = yes" > $EPREFIX/etc/portage/repos.conf/gentoo.conf
 
 # Sync everything
 RUN $PREFIXED emaint sync -a
-
-# rosdep fails with
-# ERROR: cannot verify pypi.org's certificate, issued by 'CN=DigiCert SHA2 Extended Validation Server CA,OU=www.digicert.com,O=DigiCert Inc,C=US':
-#  Unable to locally verify the issuer's authority
-# RUN $PREFIXED emerge dev-libs/openssl app-misc/ca-certificates net-misc/wget net-misc/curl
-RUN $PREFIXED update-ca-certificates
 
 # bug 674830
 RUN echo ">=sys-apps/dbus-1.12.10" >> $EPREFIX/etc/portage/package.mask
