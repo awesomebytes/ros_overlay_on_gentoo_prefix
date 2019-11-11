@@ -95,8 +95,8 @@ auto-sync = yes" > $EPREFIX/etc/portage/repos.conf/gentoo.conf
 # Sync everything
 RUN $PREFIXED emaint sync -a
 
-# bug 674830
-RUN echo ">=sys-apps/dbus-1.12.10" >> $EPREFIX/etc/portage/package.mask
+# # bug 674830
+# RUN echo ">=sys-apps/dbus-1.12.10" >> $EPREFIX/etc/portage/package.mask
 RUN $PREFIXED emerge sys-apps/dbus
 
 # Build python with sqlite and bluetooth support
