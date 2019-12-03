@@ -126,7 +126,10 @@ RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/catkin
 COPY 0001-Workaround-error-issue-ros-overlay-711.patch $EPREFIX/etc/portage/patches/ros-kinetic/catkin/0001-Workaround-error-issue-ros-overlay-711.patch
 
 # It's also needed to not run in problems later on (on ros-kinetic/desktop)
-RUN echo ">dev-util/cmake-3.12.3" >> /tmp/gentoo/etc/portage/package.mask
+# This can't be done anymore, the oldest version is 3.13.5 as of writing this comment
+# RUN echo ">dev-util/cmake-3.12.3" >> $EPREFIX/etc/portage/package.mask
+# To build succesfully
+RUN echo "net-wireless/bluez -udev" >> $EPREFIX/etc/portage/package.use
 # Make sure we emerge that version
 RUN $PREFIXED emerge dev-util/cmake
 
