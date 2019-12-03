@@ -136,28 +136,29 @@ RUN $PREFIXED emerge dev-util/cmake
 # Make sure rosdep & catkin emerge OK
 RUN $PREFIXED emerge dev-python/rosdep ros-kinetic/catkin
 
-# Needed to emerge ros-kinetic/ros_base
-RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
-# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
-# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
-# required by ros-kinetic/ros_base (argument)\n\
->=x11-libs/pango-1.42.4 X\n\
-# required by x11-libs/gtk+-3.24.1::gentoo\n\
-# required by x11-themes/adwaita-icon-theme-3.26.1::gentoo\n\
-# required by x11-libs/gtk+-2.24.32-r1::gentoo\n\
-# required by x11-themes/gtk-engines-adwaita-3.22.3::gentoo\n\
->=x11-libs/cairo-1.16.0-r2 X\n\
-# required by dev-python/wxpython-3.0.2.0::gentoo\n\
-# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
-# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
-# required by ros-kinetic/ros_base (argument)\n\
->=x11-libs/wxGTK-3.0.4-r1:3.0 tiff" >> $EPREFIX/etc/portage/package.use
+RUN echo "sys-libs/libcap -pam" >> $EPREFIX/etc/portage/package.use
 
-# Needed to emerge dev-python/pillow
-# both 5.3.0 & 5.2.0 don't emerge cause of
-# /usr/include/string.h:627:12: fatal error: bits/string.h: No such file or directory
-# #  include <bits/string.h>
-RUN echo ">=dev-python/pillow-5.2.0" >> $EPREFIX/etc/portage/package.mask
+# Needed to emerge ros-kinetic/ros_base
+RUN echo "# required by ros-kinetic/roslib-1.14.6-r1::ros-overlay\n\
+# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-kinetic/ros_base (argument)\n\
+>=dev-libs/boost-1.71.0 python\n\
+# required by dev-python/wxpython-4.0.6::gentoo\n\
+# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-kinetic/ros_base (argument)\n\
+>=x11-libs/wxGTK-3.0.4-r302 opengl sdl gstreamer tiff libnotify\n\
+# required by x11-libs/gtk+-3.24.11::gentoo\n\
+# required by x11-misc/notification-daemon-3.20.0::gentoo\n\
+# required by virtual/notification-daemon-0::gentoo[-kde,-gnome]\n\
+# required by x11-libs/libnotify-0.7.8::gentoo\n\
+# required by x11-libs/wxGTK-3.0.4-r302::gentoo[X,libnotify]\n\
+# required by dev-python/wxpython-4.0.6::gentoo\n\
+# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-kinetic/ros_base (argument)\n\
+>=x11-libs/cairo-1.16.0-r3 X" >> $EPREFIX/etc/portage/package.use
 
 
 ENTRYPOINT ["/bin/bash"]
