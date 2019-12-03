@@ -19,22 +19,18 @@ RUN apt-get install build-essential -y
 
 # Nice tools to have
 RUN apt-get install bash-completion nano net-tools less iputils-ping vim emacs -y
-RUN apt-get install python-pip python-dev  -y
-RUN apt-get install wget -y
+RUN apt-get install python-pip python-dev -y
+# Download stuff
+RUN apt-get install wget curl aria2-y
 # To enable ssh
 RUN apt-get install openssh-server -y
-# To enable adding to the clipboard from the shell
-RUN apt-get install xclip -y
-# To download stuff faster
-RUN apt-get install aria2 -y
+
 
 WORKDIR /home/user
 USER user
 
 # Let's get some specs of the machine that is running this job
-RUN cat /proc/cpuinfo
-RUN cat /proc/meminfo
-RUN df -h
+RUN cat /proc/cpuinfo; cat /proc/meminfo; df -h
 
 # Note that we always use the same one
 # This command will visit the latest release page and will look for the url of the artifact to download and download it
