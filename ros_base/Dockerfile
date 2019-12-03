@@ -21,7 +21,7 @@ RUN apt-get install build-essential -y
 RUN apt-get install bash-completion nano net-tools less iputils-ping vim emacs -y
 RUN apt-get install python-pip python-dev -y
 # Download stuff
-RUN apt-get install wget curl aria2-y
+RUN apt-get install wget curl aria2 -y
 # To enable ssh
 RUN apt-get install openssh-server -y
 
