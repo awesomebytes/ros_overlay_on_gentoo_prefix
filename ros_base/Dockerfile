@@ -101,6 +101,8 @@ RUN $PREFIXED emerge sys-apps/dbus
 # I find very surprising sqlite is not mandatory
 # Also enable PGO and LTO optimizations
 RUN echo "dev-lang/python sqlite bluetooth readline" >> $EPREFIX/etc/portage/package.use
+# To build succesfully the bluetooth support
+RUN echo "net-wireless/bluez -udev" >> $EPREFIX/etc/portage/package.use
 RUN EXTRA_ECONF="--enable-optimizations --with-lto" $PREFIXED emerge python:2.7[sqlite,bluetooth,readline] python:3.6[sqlite,bluetooth,readline]
 
 # By default it's python3 (option 1) but ROS uses Python 2.7 (as of now)
@@ -128,8 +130,6 @@ COPY 0001-Workaround-error-issue-ros-overlay-711.patch $EPREFIX/etc/portage/patc
 # It's also needed to not run in problems later on (on ros-kinetic/desktop)
 # This can't be done anymore, the oldest version is 3.13.5 as of writing this comment
 # RUN echo ">dev-util/cmake-3.12.3" >> $EPREFIX/etc/portage/package.mask
-# To build succesfully
-RUN echo "net-wireless/bluez -udev" >> $EPREFIX/etc/portage/package.use
 # Make sure we emerge that version
 RUN $PREFIXED emerge dev-util/cmake
 
