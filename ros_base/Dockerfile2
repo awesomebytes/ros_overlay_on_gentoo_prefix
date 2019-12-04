@@ -24,6 +24,8 @@ COPY 0001-Use-proposed-fix-for-new-boost.patch $EPREFIX/etc/portage/patches/ros-
 # I found that these files are effectively owned by eselect-wxwidgets
 # This has been reported in: https://bugs.gentoo.org/590124
 # So I'll just... move the binaries and ignore this problem for now
+# I also make sure app-eselect/eselect-wxwidgets is emerged, so this ugly patch works
+RUN $PREFIXED emerge app-eselect/eselect-wxwidgets
 RUN mv $EPREFIX/usr/bin/wx-config $EPREFIX/usr/bin/wx-config_bug_590124
 RUN mv $EPREFIX/usr/bin/wxrc $EPREFIX/usr/bin/wxrc_bug_590124
 
