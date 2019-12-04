@@ -3,7 +3,11 @@ FROM awesomebytes/roogp_ros_kinetic_ros_base_setup
 
 # To be able to compile ros-kinetic/roscpp with boost 1.71.0
 # As reported here: https://github.com/ros/ros-overlay/issues/912
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/roscpp
 COPY 0001-Remove-signals-to-enable-compilation-to-go-thru.patch $EPREFIX/etc/portage/patches/ros-kinetic/roscpp/0001-Remove-signals-to-enable-compilation-to-go-thru.patch
+# Same but for ros-kinetic/message_filters
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/message_filters
+COPY 0001-Remove-signals-to-enable-compilation-to-go-thru-message-filters.patch $EPREFIX/etc/portage/patches/ros-kinetic/message_filters/0001-Remove-signals-to-enable-compilation-to-go-thru-message-filters.patch
 
 # Setup the basic ROS
 RUN $PREFIXED emerge ros-kinetic/ros_base || true
