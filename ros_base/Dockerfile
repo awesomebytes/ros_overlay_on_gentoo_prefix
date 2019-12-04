@@ -160,5 +160,9 @@ RUN echo "# required by ros-kinetic/roslib-1.14.6-r1::ros-overlay\n\
 # required by ros-kinetic/ros_base (argument)\n\
 >=x11-libs/cairo-1.16.0-r3 X" >> $EPREFIX/etc/portage/package.use
 
+# Emerge llvm already, as it takes 2h30 already, so we can
+# debug the next step (where we really emerge ros_base) easier and faster
+RUN $PREFIXED emerge sys-devel/llvm
+
 
 ENTRYPOINT ["/bin/bash"]
