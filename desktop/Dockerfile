@@ -4,7 +4,7 @@ FROM awesomebytes/roogp_ros_kinetic_ros_base
 # To build qt successfully
 RUN echo "# For ROS stuff that uses qt\n\
 # dev-qt/qtgui udev\n\
-dev-qt/qtgui -libinput" >> /tmp/gentoo/etc/portage/package.use
+dev-qt/qtgui -libinput -udev" >> /tmp/gentoo/etc/portage/package.use
 
 RUN echo ">=dev-libs/libpcre2-10.32 pcre16" >> /tmp/gentoo/etc/portage/package.use 
 
