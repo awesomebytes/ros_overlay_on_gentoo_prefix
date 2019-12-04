@@ -5,6 +5,9 @@ FROM awesomebytes/roogp_ros_kinetic_desktop_1
 RUN rm $EPREFIX/usr/local/portage/ros-kinetic/orocos_kdl/files/*
 RUN cd $EPREFIX/usr/local/portage/ros-kinetic/orocos_kdl; $PREFIXED ebuild *.ebuild manifest
 
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/tf2
+COPY 0001-Remove-signals-to-enable-build.patch $EPREFIX/etc/portage/patches/ros-kinetic/tf2
+
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
 
