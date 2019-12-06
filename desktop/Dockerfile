@@ -74,12 +74,13 @@ RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPRE
 # For https://github.com/ros/ros-overlay/issues/729
 RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> $EPREFIX/etc/portage/package.use
 
-# dev-qt/qtcore 5.13.2 has some error that causes later on ros-kinetic/qt_gui_cpp
+# dev-qt/qtcore 5.12 & 5.13 has some error that causes later on ros-kinetic/qt_gui_cpp
 # to fail emerging with
 # [very long line] ... -lQt5Gui $[QT_INSTALL_LIBS]/libQt5Core.so -lpthread  ...
-# i686-pc-linux-gnu-g++: error: 0/libQt5Core.so: No such file or directory
-RUN echo ">=dev-qt/qtcore-5.13" >> $EPREFIX/etc/portage/package.mask
+# x86_64-pc-linux-gnu-g++: error: 0/libQt5Core.so: No such file or directory
+# So we emerge it and then we patch the problem (an un-substituted symbol)
 RUN $PREFIXED emerge dev-qt/qtcore
+RUN qt_install_libs_path=`qmake -query QT_INSTALL_LIBS`; sed -i 's@$$\[QT_INSTALL_LIBS\]@'$qt_install_libs_path'@' $EPREFIX/usr/lib/libQt5Gui.prl
 
 # cause of https://github.com/ros/ros-overlay/issues/725
 RUN $PREFIXED emerge dev-qt/qttest dev-qt/qtconcurrent dev-qt/qtwidgets dev-python/PyQt5[gui,widgets]
