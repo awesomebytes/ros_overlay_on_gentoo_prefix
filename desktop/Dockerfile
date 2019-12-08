@@ -79,7 +79,7 @@ RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> $EPREFIX/etc/portage/pack
 # [very long line] ... -lQt5Gui $[QT_INSTALL_LIBS]/libQt5Core.so -lpthread  ...
 # x86_64-pc-linux-gnu-g++: error: 0/libQt5Core.so: No such file or directory
 # So we emerge it and then we patch the problem (an un-substituted symbol)
-RUN $PREFIXED emerge dev-qt/qtcore
+RUN $PREFIXED emerge dev-qt/qtcore dev-qt/qtgui
 # RUN cd /tmp/gentoo/usr/bin && \
 #    unlink qmake && \
 #    ln -s /tmp/gentoo/usr/lib64/qt5/bin/qmake qmake
