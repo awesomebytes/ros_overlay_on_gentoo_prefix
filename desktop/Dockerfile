@@ -86,6 +86,8 @@ RUN $PREFIXED emerge dev-qt/qtcore dev-qt/qtgui
 # RUN qt_install_libs_path=`qmake -query QT_INSTALL_LIBS`; sed -i 's@$$\[QT_INSTALL_LIBS\]@'$qt_install_libs_path'@' $EPREFIX/usr/lib/libQt5Gui.prl
 
 # cause of https://github.com/ros/ros-overlay/issues/725
+# Workaround cause of https://bugs.gentoo.org/704624 dev-python/PyQt5-5.14.0 doesn't emerge, go to previous
+RUN echo ">=dev-python/PyQt5-5.14.0" >> $EPREFIX/etc/portage/package.mask
 RUN $PREFIXED emerge dev-qt/qttest dev-qt/qtconcurrent dev-qt/qtwidgets dev-python/PyQt5[gui,widgets]
 RUN echo "dev-qt/qtwebkit-5.212.0_pre20180120" >> $EPREFIX/etc/portage/profile/package.provided
 RUN cd /tmp/gentoo/usr/bin && \
