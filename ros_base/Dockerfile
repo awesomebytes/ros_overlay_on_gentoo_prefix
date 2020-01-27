@@ -132,7 +132,7 @@ RUN $PREFIXED emerge dev-util/cmake
 # Until https://github.com/ros/ros-overlay/pull/934 is merged we need a little patch
 RUN cd $EPREFIX/usr/local/portage/ros-kinetic/catkin &&\
     rm files/0001-Workaround-error-issue-ros-overlay-711.patch &&\
-    $PREFIXED ebuild catkin-0.7.20-r1.ebuild manifest
+    $PREFIXED ebuild $EPREFIX/usr/local/portage/ros-kinetic/catkin/catkin-0.7.20-r1.ebuild manifest
 RUN $PREFIXED emerge dev-python/rosdep ros-kinetic/catkin
 
 RUN echo "sys-libs/libcap -pam" >> $EPREFIX/etc/portage/package.use
