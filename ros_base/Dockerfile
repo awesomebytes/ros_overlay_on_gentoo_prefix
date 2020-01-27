@@ -26,7 +26,7 @@ RUN apt-get install wget curl aria2 -y
 RUN apt-get install openssh-server -y
 
 
-WORKDIR /tmp/gentoo
+WORKDIR /tmp
 USER user
 
 # Let's get some specs of the machine that is running this job
