@@ -22,7 +22,7 @@ Put the parts together and extract (4.4GB~):
 ```
 cd ~
 cat gentoo_on_tmp* > gentoo_on_tmp.tar.gz
-tar xvf gentoo_on_tmp.tar.
+tar xvf gentoo_on_tmp.tar.gz
 # Probably delete the intermediate files
 rm gentoo_on_tmp*
 # Just enter the Gentoo Prefix environment
