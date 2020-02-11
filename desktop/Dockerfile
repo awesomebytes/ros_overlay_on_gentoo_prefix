@@ -72,7 +72,7 @@ RUN sed -i -e 's/j2/j'"$((`grep -c \^processor \/proc\/cpuinfo` / 2))"'/g' $EPRE
 #     cd $EPREFIX/etc/portage/patches/dev-qt/qtcore-5.11.3 &&\
 #     wget https://gist.githubusercontent.com/awesomebytes/856d1d1b0d267f90241451d933a17867/raw/0d4f5eb1095999ffa1265ee6b59ecb33833e63c7/0001-Overcome-statx-libseccomp-issue-with-running-inside-.patch
 # For https://github.com/ros/ros-overlay/issues/729
-RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> $EPREFIX/etc/portage/package.use
+RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets webkit networking printsupport" >> $EPREFIX/etc/portage/package.use
 
 # dev-qt/qtcore 5.12 & 5.13 has some error that causes later on ros-kinetic/qt_gui_cpp
 # to fail emerging with
@@ -80,16 +80,20 @@ RUN echo ">=dev-python/PyQt5-5.10.1-r1 gui widgets" >> $EPREFIX/etc/portage/pack
 # x86_64-pc-linux-gnu-g++: error: 0/libQt5Core.so: No such file or directory
 # So we emerge it and then we patch the problem (an un-substituted symbol)
 RUN $PREFIXED emerge dev-qt/qtcore dev-qt/qtgui
-# RUN cd /tmp/gentoo/usr/bin && \
-#    unlink qmake && \
-#    ln -s /tmp/gentoo/usr/lib64/qt5/bin/qmake qmake
-# RUN qt_install_libs_path=`qmake -query QT_INSTALL_LIBS`; sed -i 's@$$\[QT_INSTALL_LIBS\]@'$qt_install_libs_path'@' $EPREFIX/usr/lib/libQt5Gui.prl
+
+# gstreamer gets pulled by Qt at some point, while emerging ros-kinetic/desktop
+# Meanwhile https://bugs.gentoo.org/705974 gets fixed upstream (make has a backward incompatible change)
+RUN mkdir -p $EPREFIX/etc/portage/patches/media-libs/gstreamer-1.14.5 &&\
+    wget https://705974.bugs.gentoo.org/attachment.cgi?id=604218 -O $EPREFIX/etc/portage/patches/media-libs/gstreamer-1.14.5/make-fix.patch
+RUN mkdir -p $EPREFIX/etc/portage/patches/media-libs/gst-plugins-bad-1.14.5 &&\
+    wget https://705974.bugs.gentoo.org/attachment.cgi?id=604222 -O $EPREFIX/etc/portage/patches/media-libs/gst-plugins-bad-1.14.5/make-fix.patch
+RUN mkdir -p $EPREFIX/etc/portage/patches/media-libs/gst-plugins-base-1.14.5 &&\
+    wget https://705974.bugs.gentoo.org/attachment.cgi?id=604220 -O $EPREFIX/etc/portage/patches/media-libs/gst-plugins-base-1.14.5/make-fix.patch
 
 # cause of https://github.com/ros/ros-overlay/issues/725
 # Workaround cause of https://bugs.gentoo.org/704624 dev-python/PyQt5-5.14.0 doesn't emerge, go to previous
 # RUN echo ">=dev-python/PyQt5-5.13.2" >> $EPREFIX/etc/portage/package.mask
 RUN $PREFIXED emerge dev-qt/qttest dev-qt/qtconcurrent dev-qt/qtwidgets dev-python/PyQt5[gui,widgets]
-RUN echo "dev-qt/qtwebkit-5.212.0_pre20180120" >> $EPREFIX/etc/portage/profile/package.provided
 RUN cd /tmp/gentoo/usr/bin && \
     unlink qmake && \
     ln -s /tmp/gentoo/usr/lib64/qt5/bin/qmake qmake

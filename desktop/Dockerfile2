@@ -38,10 +38,8 @@ COPY 0001-image_view-signals-boost-1.71.0-bug-fix.patch $EPREFIX/etc/portage/pat
 RUN echo ">dev-python/numpy-1.17" >> $EPREFIX/etc/portage/package.mask && \
     $PREFIXED emerge dev-python/numpy
 
-# Until https://github.com/ros/ros-overlay/issues/947 is resolved
-RUN mkdir -p $EPREFIX/etc/portage/patches/ros-kinetic/python_qt_binding && \
-    wget -P $EPREFIX/etc/portage/patches/ros-kinetic/python_qt_binding https://github.com/ros-visualization/python_qt_binding/commit/0a4893791039d5c3f851ee7bc2de832209d52f6d.patch
-
+# Required by ros-kinetic/desktop
+RUN echo ">=dev-python/PyQt5-5.14.1 webkit opengl" >> $EPREFIX/etc/portage/package.use
 
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
