@@ -17,9 +17,6 @@ RUN cd $EPREFIX/usr/local/portage/ros-kinetic/orocos_kdl; $PREFIXED ebuild $EPRE
 RUN echo ">dev-python/numpy-1.17" >> $EPREFIX/etc/portage/package.mask && \
     $PREFIXED emerge dev-python/numpy
 
-# Required by ros-kinetic/desktop
-RUN echo ">=dev-python/PyQt5-5.14.1 webkit opengl" >> $EPREFIX/etc/portage/package.use
-
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
 
