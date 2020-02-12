@@ -33,6 +33,6 @@ RUN $PREFIXED emerge ros-kinetic/desktop
 
 
 # Create the bin packages
-RUN $PREFIXED quickpkg \"*/*\" --include-config y --include-unmodified-config y
+# RUN $PREFIXED quickpkg \"*/*\" --include-config y --include-unmodified-config y
 
 ENTRYPOINT ["/bin/bash"]
