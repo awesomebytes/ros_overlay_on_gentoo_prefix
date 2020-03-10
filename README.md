@@ -22,6 +22,16 @@ Builds page on Azure Pipelines: https://dev.azure.com/12719821/12719821/_build?d
 
 Ready-to-use releases: https://github.com/awesomebytes/ros_overlay_on_gentoo_prefix/releases
 
+Ready-to-use built Dockers:
+* ros-kinetic/ros_base: `docker pull awesomebytes/roogp_ros_kinetic_ros_base`
+* ros-kinetic/desktop: `docker pull awesomebytes/roogp_ros_kinetic_desktop_3`
+* ros-melodic/ros_base: `docker pull awesomebytes/roogp_ros_melodic_ros_base`
+* ros-melodic/desktop: `docker pull awesomebytes/roogp_ros_melodic_desktop_3`
+
+You can get into the dockers by doing: `docker run -it awesomebytes/IMAGE_NAME /bin/bash`
+
+You'll find
+
 # Currently building
 
 * ros-kinetic/ros_base
@@ -51,7 +61,7 @@ export ROS_IP=<YOUR_IP_HERE>
 
 ros-kinetic/desktop is ~4GB, extracted ~6GB.
 
-The `startprefix` script is used to drop the user in a shell in the Gentoo Prefix environment. It will create a softlink in `/tmp/gentoo` pointing to your extracted `gentoo` folder.
+The `startprefix` script is used to drop the user in a shell in the Gentoo Prefix environment. It creates a softlink to `/tmp/gentoo` if it does not exist in order to work.
 
 # Work in progress & Future work
 Contributions more than welcome!
