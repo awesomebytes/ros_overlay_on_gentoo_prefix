@@ -28,48 +28,48 @@ echo ">=dev-libs/libpcre2-10.32 pcre16" >> /tmp/gentoo/etc/portage/package.use
 ```bash
 echo "# required by media-gfx/graphviz-2.40.1-r1::gentoo
 # required by dev-python/pydot-1.2.3::gentoo
-# required by ros-kinetic/qt_dotgraph-0.3.11::ros-overlay
-# required by ros-kinetic/rqt_dep-0.4.9::ros-overlay
-# required by ros-kinetic/rqt_common_plugins-0.4.8::ros-overlay
-# required by ros-kinetic/viz-1.3.2::ros-overlay
-# required by ros-kinetic/desktop-1.3.2::ros-overlay
-# required by ros-kinetic/desktop (argument)
+# required by ros-melodic/qt_dotgraph-0.3.11::ros-overlay
+# required by ros-melodic/rqt_dep-0.4.9::ros-overlay
+# required by ros-melodic/rqt_common_plugins-0.4.8::ros-overlay
+# required by ros-melodic/viz-1.3.2::ros-overlay
+# required by ros-melodic/desktop-1.3.2::ros-overlay
+# required by ros-melodic/desktop (argument)
 >=media-libs/gd-2.2.5-r1 truetype jpeg png fontconfig
 # required by dev-qt/qtgui-5.11.2-r1::gentoo[xcb]
 # required by dev-qt/qtwidgets-5.11.2::gentoo
-# required by ros-kinetic/turtlesim-0.7.1::ros-overlay
-# required by ros-kinetic/ros_tutorials-0.7.1::ros-overlay
-# required by ros-kinetic/desktop-1.3.2::ros-overlay
-# required by ros-kinetic/desktop (argument)
+# required by ros-melodic/turtlesim-0.7.1::ros-overlay
+# required by ros-melodic/ros_tutorials-0.7.1::ros-overlay
+# required by ros-melodic/desktop-1.3.2::ros-overlay
+# required by ros-melodic/desktop (argument)
 >=x11-libs/libxcb-1.13.1 xkb
-# required by ros-kinetic/opencv3-3.3.1-r5::ros-overlay
-# required by ros-kinetic/cv_bridge-1.12.8::ros-overlay
-# required by ros-kinetic/rqt_image_view-0.4.13::ros-overlay
-# required by ros-kinetic/rqt_common_plugins-0.4.8::ros-overlay
-# required by ros-kinetic/viz-1.3.2::ros-overlay
-# required by ros-kinetic/desktop-1.3.2::ros-overlay
-# required by ros-kinetic/desktop (argument)
+# required by ros-melodic/opencv3-3.3.1-r5::ros-overlay
+# required by ros-melodic/cv_bridge-1.12.8::ros-overlay
+# required by ros-melodic/rqt_image_view-0.4.13::ros-overlay
+# required by ros-melodic/rqt_common_plugins-0.4.8::ros-overlay
+# required by ros-melodic/viz-1.3.2::ros-overlay
+# required by ros-melodic/desktop-1.3.2::ros-overlay
+# required by ros-melodic/desktop (argument)
 >=sci-libs/vtk-8.1.0-r3 rendering qt5
 # required by dev-qt/qtgui-5.11.2-r1::gentoo[xcb]
 # required by dev-qt/qtwidgets-5.11.2::gentoo
-# required by ros-kinetic/turtlesim-0.7.1::ros-overlay
-# required by ros-kinetic/ros_tutorials-0.7.1::ros-overlay
-# required by ros-kinetic/desktop-1.3.2::ros-overlay
-# required by ros-kinetic/desktop (argument)
+# required by ros-melodic/turtlesim-0.7.1::ros-overlay
+# required by ros-melodic/ros_tutorials-0.7.1::ros-overlay
+# required by ros-melodic/desktop-1.3.2::ros-overlay
+# required by ros-melodic/desktop (argument)
 >=x11-libs/libxkbcommon-0.8.2 X
 # required by dev-libs/collada-dom-2.5.0::gentoo
-# required by ros-kinetic/collada_urdf-1.12.12::ros-overlay
-# required by ros-kinetic/robot_model-1.12.11::ros-overlay
-# required by ros-kinetic/robot-1.3.2::ros-overlay
-# required by ros-kinetic/desktop-1.3.2::ros-overlay
-# required by ros-kinetic/desktop (argument)
+# required by ros-melodic/collada_urdf-1.12.12::ros-overlay
+# required by ros-melodic/robot_model-1.12.11::ros-overlay
+# required by ros-melodic/robot-1.3.2::ros-overlay
+# required by ros-melodic/desktop-1.3.2::ros-overlay
+# required by ros-melodic/desktop (argument)
 >=sys-libs/zlib-1.2.11-r2 minizip" >> /tmp/gentoo/etc/portage/package.use
 ```
 
 # until https://github.com/ros/ros-overlay/pull/719 is merged
 
 ```bash
-mkdir -p /tmp/gentoo/etc/portage/patches/ros-kinetic/message_filters
+mkdir -p /tmp/gentoo/etc/portage/patches/ros-melodic/message_filters
 echo "From b0e4cf7ad3960684d7915dbf84b1754f93b5447e Mon Sep 17 00:00:00 2001
 From: Sammy Pfeiffer <Sammy.Pfeiffer@student.uts.edu.au>
 Date: Mon, 10 Dec 2018 21:58:54 +1100
@@ -95,8 +95,8 @@ index 7891890..1c14a6f 100644
 -- 
 2.7.4
 
-" >> /tmp/gentoo/etc/portage/patches/ros-kinetic/message_filters/sync.patch
-emerge ros-kinetic/message_filters
+" >> /tmp/gentoo/etc/portage/patches/ros-melodic/message_filters/sync.patch
+emerge ros-melodic/message_filters
 ```
 
 For https://bugs.gentoo.org/649808
@@ -249,6 +249,6 @@ echo 'RUBY_TARGETS="ruby25"' >> /tmp/gentoo/etc/portage/make.conf
 
 # Emerge it (237 packages)
 ```bash
-emerge ros-kinetic/desktop
+emerge ros-melodic/desktop
 ```
 

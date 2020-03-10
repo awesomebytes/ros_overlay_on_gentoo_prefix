@@ -1,7 +1,7 @@
-# Pull ros-kinetic/ros_base already emerged and the first part to emerge desktop
-FROM awesomebytes/roogp_ros_kinetic_desktop_2
+# Pull ros-melodic/ros_base already emerged and the first part to emerge desktop
+FROM awesomebytes/roogp_ros_melodic_desktop_2
 
-# For ros-kinetic/opencv3 as reported in https://github.com/ros/ros-overlay/issues/726
+# For ros-melodic/opencv3 as reported in https://github.com/ros/ros-overlay/issues/726
 # RUN echo ">=dev-games/ogre-1.10.12 experimental" >> $EPREFIX/etc/portage/package.use
 # RUN sed -i 's/-DOGRE_NODE_STORAGE_LEGACY=no/-DOGRE_NODE_STORAGE_LEGACY=yes/g' $EPREFIX/usr/portage/dev-games/ogre/ogre-1.10.12.ebuild &&\
 #     $PREFIXED ebuild $EPREFIX/usr/portage/dev-games/ogre/ogre-1.10.12.ebuild manifest
@@ -17,7 +17,7 @@ RUN cd $EPREFIX/usr/lib &&\
 
 # Numpy doesn't support Python 2.7 anymore
 # and we are still pending on migrating to Python 3 (as ROS is)
-# ros-kinetic/opencv_bridge fails to emerge with:
+# ros-melodic/opencv_bridge fails to emerge with:
 # ImportError: No module named numpy
 # CMake Error at src/CMakeLists.txt:25 (message):
 #   Could not determine the NumPy include directory, verify that NumPy was
@@ -26,18 +26,39 @@ RUN cd $EPREFIX/usr/lib &&\
 RUN echo ">dev-python/numpy-1.17" >> $EPREFIX/etc/portage/package.mask && \
     $PREFIXED emerge dev-python/numpy
 
-RUN $PREFIXED emerge ros-kinetic/python_qt_binding
+RUN $PREFIXED emerge ros-melodic/python_qt_binding
+
+# Meanwhile tf2 is not correctly regenerated in ros-overlay to 0.6.6-1
+RUN wget https://gist.githubusercontent.com/awesomebytes/0564296907ff82603376fcecca60d3d3/raw/b5285a1f65b96c29e4ebb9ad46ae551b0818d543/tf2-0.6.6-1.ebuild -O $EPREFIX/usr/local/portage/ros-melodic/tf2/tf2-0.6.6-r1.ebuild &&\
+    $PREFIXED ebuild $EPREFIX/usr/local/portage/ros-melodic/tf2/tf2-0.6.6-r1.ebuild manifest &&\
+    $PREFIXED emerge ros-melodic/tf2
+# Meanwhile a version newer than tf-1.12.0 is not released (for the boost patch)
+RUN mkdir -p $EPREFIX/etc/portage/patches/ros-melodic/tf-1.12.0 &&\
+    wget https://gist.githubusercontent.com/awesomebytes/cee46d45d1314d8df4512ed577c55227/raw/4a5edd58e84a0fa010089da7bdf6caa934d6936d/boost_signals_tf_1.12.0.patch -O $EPREFIX/etc/portage/patches/ros-melodic/tf-1.12.0/boost_signals.patch &&\
+    $PREFIXED emerge ros-melodic/tf
+# Meanwhile turtlesim is not available, https://github.com/ros/ros-overlay/pull/967 needs to be merged
+RUN wget https://raw.githubusercontent.com/ros/ros-overlay/e595d721a795958294ee34efd954478f6a329c77/ros-melodic/turtlesim/turtlesim-0.9.2-r1.ebuild -O $EPREFIX/usr/local/portage/ros-melodic/turtlesim/turtlesim-0.9.2-r1.ebuild &&\
+    $PREFIXED ebuild $EPREFIX/usr/local/portage/ros-melodic/turtlesim/turtlesim-0.9.2-r1.ebuild manifest &&\
+    $PREFIXED emerge ros-melodic/turtlesim
+
+
+# cv_bridge wants openCV 3, but we have 4 right now, so we need to downgrade
+# or do something like: https://github.com/MartinNievas/vision_opencv/pull/2/files
+# to allow OpenCV4, but I'll leave that as a future work
+RUN echo ">media-libs/opencv-4" >> $EPREFIX/etc/portage/package.mask &&\
+    $PREFIXED emerge media-libs/opencv
+
 
 # Setup desktop (237 packages)
-RUN $PREFIXED emerge ros-kinetic/desktop || true
+RUN $PREFIXED emerge ros-melodic/desktop || true
 
 # Extra trick needed as qmake points to qtchooser for Rviz, but we can only do it
 # when we already have QT5
-# so we let ros-kinetic/desktop fail once and do this
+# so we let ros-melodic/desktop fail once and do this
 RUN cd /tmp/gentoo/usr/bin && \
     unlink qmake && \
     ln -s /tmp/gentoo/usr/lib/qt5/bin/qmake qmake
-RUN $PREFIXED emerge ros-kinetic/desktop
+RUN $PREFIXED emerge ros-melodic/desktop
 
 
 # Create the bin packages

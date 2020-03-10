@@ -5,14 +5,14 @@
 
 # Everything must be under a 'job' to be able to set the timeoutInMinutes
 jobs:
-  - job: "build_ros_kinetic_ros_base_1"
+  - job: "build_ros_melodic_ros_base_1"
     timeoutInMinutes: 0
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_ros_base_setup
+      docker_image_name: roogp_ros_melodic_ros_base_setup
 
     steps:
     - script: docker login -u $(DockerHub_user) -p $(DockerHub_password)
@@ -42,15 +42,15 @@ jobs:
       displayName: 'push latest to DockerHub'
       # condition: always()
 
-  - job: "build_ros_kinetic_ros_base_2"
+  - job: "build_ros_melodic_ros_base_2"
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_ros_base_1"
+    dependsOn: "build_ros_melodic_ros_base_1"
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_ros_base
+      docker_image_name: roogp_ros_melodic_ros_base
 
     steps:
     - script: docker login -u $(DockerHub_user) -p $(DockerHub_password)
@@ -82,15 +82,15 @@ jobs:
  
   - job: package_stage_ros_base
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_ros_base_2"
+    dependsOn: "build_ros_melodic_ros_base_2"
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_ros_base_package_stage
+      docker_image_name: roogp_ros_melodic_ros_base_package_stage
       platform: amd64
-      rosdistro: ros-kinetic
+      rosdistro: ros-melodic
       bundlename: ros_base
 
     steps:
@@ -135,10 +135,11 @@ jobs:
         export DATE=$(date -I'minutes' | sed 's/+/plus/g'| sed 's/:/at/g')
         export RELEASE_TAG=release/${DATE}
         export RELEASE_FILE_NAME=gentoo_on_tmp_with_$(rosdistro)_$(bundlename)-${PLATFORM}_${DATE}.tar.gz
-        export RELEASE_NAME="Gentoo Prefix on /tmp/gentoo ROS $(bundlename)"
-        export BODY="Use ROS Kinetic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.gz; ./gentoo/startprefix"
+        export RELEASE_NAME="Gentoo Prefix on /tmp/gentoo ROS Melodic $(bundlename)"
+        export BODY="Use ROS Melodic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.gz; ./gentoo/startprefix"
         mv $HOME/gentoo_on_tmp.tar.gz ${RELEASE_FILE_NAME}
         split -b 1024MB -d ${RELEASE_FILE_NAME} ${RELEASE_FILE_NAME}.part-
+        rm ${RELEASE_FILE_NAME}
         export PATH=$HOME/.local/bin:$PATH
         export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
         githubrelease --github-token $(GitHub_Token) release $(Build.Repository.Name) create "${RELEASE_TAG}" --publish --name "${RELEASE_NAME}" --body "${BODY}" "${RELEASE_FILE_NAME}.part-*"
@@ -146,15 +147,15 @@ jobs:
 
 
 
-  - job: "build_ros_kinetic_desktop_1"
+  - job: "build_ros_melodic_desktop_1"
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_ros_base_2"
+    dependsOn: "build_ros_melodic_ros_base_2"
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_desktop_1
+      docker_image_name: roogp_ros_melodic_desktop_1
 
     steps:
     - script: docker login -u $(DockerHub_user) -p $(DockerHub_password)
@@ -183,15 +184,15 @@ jobs:
       displayName: 'push latest to DockerHub'
       # condition: always()
 
-  - job: "build_ros_kinetic_desktop_2"
+  - job: "build_ros_melodic_desktop_2"
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_desktop_1"
+    dependsOn: "build_ros_melodic_desktop_1"
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_desktop_2
+      docker_image_name: roogp_ros_melodic_desktop_2
 
     steps:
     - script: docker login -u $(DockerHub_user) -p $(DockerHub_password)
@@ -218,16 +219,16 @@ jobs:
       displayName: 'push latest to DockerHub'
       # condition: always()
 
-  - job: "build_ros_kinetic_desktop_3"
+  - job: "build_ros_melodic_desktop_3"
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_desktop_2"
+    dependsOn: "build_ros_melodic_desktop_2"
 
     # pool: magiclab
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_desktop_3
+      docker_image_name: roogp_ros_melodic_desktop_3
 
     steps:
     - script: docker login -u $(DockerHub_user) -p $(DockerHub_password)
@@ -256,15 +257,15 @@ jobs:
  
   - job: package_stage_desktop
     timeoutInMinutes: 0
-    dependsOn: "build_ros_kinetic_desktop_3"
+    dependsOn: "build_ros_melodic_desktop_3"
 
     pool:
       vmImage: 'Ubuntu 16.04'
 
     variables:
-      docker_image_name: roogp_ros_kinetic_desktop_package_stage
+      docker_image_name: roogp_ros_melodic_desktop_package_stage
       platform: amd64
-      rosdistro: ros-kinetic
+      rosdistro: ros-melodic
       bundlename: desktop
 
     steps:
@@ -309,10 +310,11 @@ jobs:
         export DATE=$(date -I'minutes' | sed 's/+/plus/g'| sed 's/:/at/g')
         export RELEASE_TAG=release/${DATE}
         export RELEASE_FILE_NAME=gentoo_on_tmp_with_$(rosdistro)_$(bundlename)-${PLATFORM}_${DATE}.tar.gz
-        export RELEASE_NAME="Gentoo Prefix on /tmp/gentoo with ROS $(bundlename)"
-        export BODY="Use ROS Kinetic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.gz; ./gentoo/startprefix"
+        export RELEASE_NAME="Gentoo Prefix on /tmp/gentoo with ROS Melodic $(bundlename)"
+        export BODY="Use ROS Melodic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.gz; ./gentoo/startprefix"
         mv $HOME/gentoo_on_tmp.tar.gz ${RELEASE_FILE_NAME}
         split -b 1024MB -d ${RELEASE_FILE_NAME} ${RELEASE_FILE_NAME}.part-
+        rm ${RELEASE_FILE_NAME}
         export PATH=$HOME/.local/bin:$PATH
         export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
         githubrelease --github-token $(GitHub_Token) release $(Build.Repository.Name) create "${RELEASE_TAG}" --publish --name "${RELEASE_NAME}" --body "${BODY}" "${RELEASE_FILE_NAME}.part-*"

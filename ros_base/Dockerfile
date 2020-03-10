@@ -124,13 +124,13 @@ RUN echo "# From the Docker image of ros-overlay\n\
 # mainly force to build just Python 2.7\n\
 ros-indigo/* PYTHON_TARGETS: -* python2_7\n\
 ros-indigo/* PYTHON_SINGLE_TARGET: -* python2_7\n\
-ros-kinetic/* PYTHON_TARGETS: -* python2_7\n\
-ros-kinetic/* PYTHON_SINGLE_TARGET: -* python2_7\n\
+ros-melodic/* PYTHON_TARGETS: -* python2_7\n\
+ros-melodic/* PYTHON_SINGLE_TARGET: -* python2_7\n\
 ros-lunar/* PYTHON_TARGETS: -* python2_7\n\
 ros-lunar/* PYTHON_SINGLE_TARGET: -* python2_7\n\
 " >> $EPREFIX/etc/portage/package.use
 
-# It's also needed to not run in problems later on (on ros-kinetic/desktop)
+# It's also needed to not run in problems later on (on ros-melodic/desktop)
 # This can't be done anymore, the oldest version is 3.13.5 as of writing this comment
 # RUN echo ">dev-util/cmake-3.12.3" >> $EPREFIX/etc/portage/package.mask
 # Make sure we emerge that version
@@ -138,27 +138,27 @@ RUN $PREFIXED emerge dev-util/cmake
 
 # Make sure rosdep & catkin emerge OK
 # Higher versions of rospkg (out of ros-overlay) unsupport python2
-# ros-kinetic/nodelet_topic_tools is the first to fail if rospkg is not in py2
+# ros-melodic/nodelet_topic_tools is the first to fail if rospkg is not in py2
 RUN echo ">=dev-python/rospkg-1.8" >> $EPREFIX/etc/portage/package.mask
 # Until https://github.com/ros/ros-overlay/pull/952 is merged
 RUN rm $EPREFIX/usr/local/portage/dev-python/rosdistro/Manifest && \
     $PREFIXED ebuild $EPREFIX/usr/local/portage/dev-python/rosdistro/*.ebuild manifest
 RUN echo ">=dev-python/rosdistro-9999 -python_targets_python3_6" >> $EPREFIX/etc/portage/package.use
 RUN echo ">=dev-python/rosdep-0.13.0 -python_targets_python3_6" >> $EPREFIX/etc/portage/package.use
-RUN $PREFIXED emerge dev-python/rosdep ros-kinetic/catkin
+RUN $PREFIXED emerge dev-python/rosdep ros-melodic/catkin
 
 RUN echo "sys-libs/libcap -pam" >> $EPREFIX/etc/portage/package.use
 
-# Needed to emerge ros-kinetic/ros_base
-RUN echo "# required by ros-kinetic/roslib-1.14.6-r1::ros-overlay\n\
-# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
-# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
-# required by ros-kinetic/ros_base (argument)\n\
+# Needed to emerge ros-melodic/ros_base
+RUN echo "# required by ros-melodic/roslib-1.14.6-r1::ros-overlay\n\
+# required by ros-melodic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-melodic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-melodic/ros_base (argument)\n\
 >=dev-libs/boost-1.71.0 python\n\
 # required by dev-python/wxpython-4.0.6::gentoo\n\
-# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
-# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
-# required by ros-kinetic/ros_base (argument)\n\
+# required by ros-melodic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-melodic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-melodic/ros_base (argument)\n\
 >=x11-libs/wxGTK-3.0.4-r302 opengl sdl gstreamer tiff libnotify\n\
 # required by x11-libs/gtk+-3.24.11::gentoo\n\
 # required by x11-misc/notification-daemon-3.20.0::gentoo\n\
@@ -166,9 +166,9 @@ RUN echo "# required by ros-kinetic/roslib-1.14.6-r1::ros-overlay\n\
 # required by x11-libs/libnotify-0.7.8::gentoo\n\
 # required by x11-libs/wxGTK-3.0.4-r302::gentoo[X,libnotify]\n\
 # required by dev-python/wxpython-4.0.6::gentoo\n\
-# required by ros-kinetic/actionlib-1.11.13::ros-overlay\n\
-# required by ros-kinetic/ros_base-1.3.2::ros-overlay\n\
-# required by ros-kinetic/ros_base (argument)\n\
+# required by ros-melodic/actionlib-1.11.13::ros-overlay\n\
+# required by ros-melodic/ros_base-1.3.2::ros-overlay\n\
+# required by ros-melodic/ros_base (argument)\n\
 >=x11-libs/cairo-1.16.0-r3 X" >> $EPREFIX/etc/portage/package.use
 
 # Emerge llvm already, as it takes 2h30 already, so we can
