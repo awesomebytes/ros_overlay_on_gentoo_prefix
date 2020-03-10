@@ -44,7 +44,7 @@ jobs:
 
   - job: "build_ros_melodic_ros_base_2"
     timeoutInMinutes: 0
-    dependsOn: "build_ros_melodic_ros_base_1"
+    # dependsOn: "build_ros_melodic_ros_base_1"
 
     pool:
       vmImage: 'Ubuntu 16.04'
