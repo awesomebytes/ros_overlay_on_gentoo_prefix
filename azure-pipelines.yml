@@ -258,7 +258,7 @@ jobs:
  
   - job: package_stage_desktop
     timeoutInMinutes: 0
-    dependsOn: "build_ros_melodic_desktop_3"
+    # dependsOn: "build_ros_melodic_desktop_3"
 
     pool:
       vmImage: 'Ubuntu 16.04'
