@@ -105,6 +105,18 @@ RUN $PREFIXED emaint sync -a
 # RUN echo ">=sys-apps/dbus-1.12.10" >> $EPREFIX/etc/portage/package.mask
 RUN $PREFIXED emerge sys-apps/dbus
 
+
+# Due to circular dependencies:
+#  * Error: circular dependencies:
+# net-wireless/bluez-5.54:0/3::gentoo, ebuild scheduled for merge) depends on
+#  (dev-libs/glib-2.62.5:2/2::gentoo, ebuild scheduled for merge) (buildtime)
+#   (dev-util/meson-0.53.1:0/0::gentoo, ebuild scheduled for merge) (buildtime)
+#    (dev-python/setuptools-44.0.0:0/0::gentoo, ebuild scheduled for merge) (buildtime)
+#     (dev-lang/python-2.7.17-r1:2.7/2.7::gentoo, ebuild scheduled for merge) (buildtime)
+#      (net-wireless/bluez-5.54:0/3::gentoo, ebuild scheduled for merge) (buildtime)
+# We build without bluetooth first, then with... (note that the bluetooth support is needed
+# because some ROS package use bluetooth from Python)
+RUN $PREFIXED emerge python:2.7 python:3.6
 # Build python with sqlite and bluetooth support
 # I find very surprising sqlite is not mandatory
 # Also enable PGO and LTO optimizations
@@ -112,6 +124,7 @@ RUN echo "dev-lang/python sqlite bluetooth readline" >> $EPREFIX/etc/portage/pac
 # To build succesfully the bluetooth support
 RUN echo "net-wireless/bluez -udev" >> $EPREFIX/etc/portage/package.use
 RUN EXTRA_ECONF="--enable-optimizations --with-lto" $PREFIXED emerge python:2.7[sqlite,bluetooth,readline] python:3.6[sqlite,bluetooth,readline]
+
 
 # By default it's python3 (option 1) but ROS uses Python 2.7 (as of now)
 # Choosing Python 2.7
