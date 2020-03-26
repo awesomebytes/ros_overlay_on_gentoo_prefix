@@ -37,7 +37,7 @@ RUN cat /proc/cpuinfo; cat /proc/meminfo; df -h
 RUN aria2c -x 10 http://github.com`curl -s -L https://github.com/awesomebytes/gentoo_prefix_ci/releases/latest | grep "download/release" | cut -d '"' -f2`
 # RUN aria2c -x 10 https://github.com/awesomebytes/gentoo_prefix_ci/releases/download/release%2F2019-01-07T18at09plus00at00/gentoo_on_tmp-amd64_2019-01-07T18at09plus00at00.tar.gz
 
-RUN tar xvf gentoo_on_tmp-*.tar.gz; rm gentoo_on_tmp-*.tar.gz
+RUN tar xvf gentoo_on_tmp-*.tar.*; rm gentoo_on_tmp-*.tar.*
 
 # Make sure it works
 RUN bash gentoo/executeonprefix emerge --version
