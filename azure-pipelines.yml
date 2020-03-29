@@ -263,7 +263,7 @@ jobs:
  
   - job: package_stage_desktop
     timeoutInMinutes: 0
-    # dependsOn: "build_ros_kinetic_desktop_3"
+    dependsOn: "build_ros_kinetic_desktop_3"
 
     pool:
       vmImage: 'Ubuntu 16.04'
@@ -308,7 +308,7 @@ jobs:
     - script: sudo mkdir /mnt/ramdisk && sudo mount -t tmpfs -o rw,size=5G tmpfs /mnt/ramdisk
       displayName: 'create RAM disk for output'
 
-    - script: docker run --rm --entrypoint /tmp/gentoo/executeonprefix $(DockerHub_user)/$(docker_image_name):$(Build.BuildId)  "tar -c --lzma -f - -C /tmp gentoo" > /mnt/ramdisk/gentoo_on_tmp.tar.lzma
+    - script: docker run --rm --entrypoint /tmp/gentoo/executeonprefix $(DockerHub_user)/$(docker_image_name):$(Build.BuildId)  "tar -c --lzma -f - -C /tmp gentoo" > /mnt/ramdisk/gentoo_on_tmp.tar.lzma; ls -lah /mnt/ramdisk
       displayName: 'Create .tar.lzma of /tmp/gentoo'
 
     # # Create a temporal container to copy the gentoo_on_tmp.tar.gz
@@ -331,7 +331,8 @@ jobs:
         export BODY="Use ROS Kinetic on Gentoo Prefix with: cat ${RELEASE_FILE_NAME}.part-* > ${RELEASE_FILE_NAME}; tar xvf gentoo_on_tmp*.tar.lzma; ./gentoo/startprefix"
         docker system prune -a -f
         mv /mnt/ramdisk/gentoo_on_tmp.tar.lzma $HOME/${RELEASE_FILE_NAME}
-        split -b 1024MB -d ${RELEASE_FILE_NAME} ${RELEASE_FILE_NAME}.part-
+        cd $HOME
+        split -b 1536MB -d ${RELEASE_FILE_NAME} ${RELEASE_FILE_NAME}.part-
         rm ${RELEASE_FILE_NAME}
         export PATH=$HOME/.local/bin:$PATH
         export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
