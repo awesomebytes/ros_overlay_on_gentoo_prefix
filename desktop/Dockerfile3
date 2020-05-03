@@ -32,6 +32,10 @@ RUN $PREFIXED emerge ros-kinetic/python_qt_binding
 RUN rm $EPREFIX/usr/local/portage/ros-melodic/rviz/Manifest &&\
     $PREFIXED ebuild $EPREFIX/usr/local/portage/ros-melodic/rviz/rviz-1.13.9.ebuild manifest
 
+# Try to free some space, for some reason we are running out of disk space in this build
+# on opencv3
+RUN du -sh $EPREFIX/var/tmp; du -sh $EPREFIX/var/cache/binpkgs; rm -rf $EPREFIX/var/cache/binpkgs/* $EPREFIX/var/tmp/*
+
 # Setup desktop (237 packages)
 RUN $PREFIXED emerge ros-kinetic/desktop || true
 
