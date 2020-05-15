@@ -116,7 +116,7 @@ RUN $PREFIXED emerge sys-apps/dbus
 #      (net-wireless/bluez-5.54:0/3::gentoo, ebuild scheduled for merge) (buildtime)
 # We build without bluetooth first, then with... (note that the bluetooth support is needed
 # because some ROS package use bluetooth from Python)
-RUN $PREFIXED emerge python:2.7 python:3.6
+RUN $PREFIXED emerge python:2.7 python:3.7
 # Build python with sqlite and bluetooth support
 # I find very surprising sqlite is not mandatory
 # Also enable PGO and LTO optimizations
@@ -127,9 +127,9 @@ RUN echo "net-wireless/bluez -udev" >> $EPREFIX/etc/portage/package.use &&\
 RUN EXTRA_ECONF="--enable-optimizations --with-lto" $PREFIXED emerge python:2.7[sqlite,bluetooth,readline] python:3.6[sqlite,bluetooth,readline]
 
 
-# By default it's python3 (option 1) but ROS uses Python 2.7 (as of now)
+# By default it's python3.7 (option 1) but ROS uses Python 2.7 (as of now)
 # Choosing Python 2.7
-RUN $PREFIXED eselect python set 2
+RUN $PREFIXED eselect python list && $PREFIXED eselect python set 2
 
 # Only emerge for Python 2.7
 # Because of errors like:
