@@ -61,7 +61,7 @@ RUN echo "# required by dev-python/wxpython-3.0.2.0::gentoo\n\
 # //Options: --prefix='/tmp/gentoo/usr' --xc-host='sh /home/user/gentoo/var/tmp/portage/dev-lisp/sbcl-1.5.8/work/sbcl-binary/run-sbcl.sh --no-sysinit --no-userinit --disable-debugger'
 # /home/user/gentoo/var/tmp/portage/dev-lisp/sbcl-1.5.8/work/sbcl-binary/src/runtime/sbcl: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found (required by /home/user/gentoo/var/tmp/portage/dev-lisp/sbcl-1.5.8/work/sbcl-binary/src/runtime/sbcl)
 # So we revert to stable version
-RUN echo ">=dev-lisp/sbcl-1.5.0" >> $EPREFIX/etc/portage/package.mask
+#RUN echo ">=dev-lisp/sbcl-1.5.0" >> $EPREFIX/etc/portage/package.mask
 
 
 # media-libs/mesa-19.3.2 fails with:
